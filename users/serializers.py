@@ -2,7 +2,7 @@ from django.core.serializers import serialize
 from rest_framework.serializers import ModelSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
-from .models import UserProfile
+from .models import UserProfile , NetworkEdge
 from rest_framework import serializers
 
 class UserCreatedSerializer(ModelSerializer):
@@ -47,3 +47,18 @@ class UserProfileUpdateSerializer(ModelSerializer):
     class Meta:
         model=UserProfile
         fields=('first_name','last_name','bio','profile_pic_url')
+
+class NetworkEdgeCreationSerializer(ModelSerializer):
+      to_user=UserProfileViewSerializer()
+      from_user=UserProfileViewSerializer()
+
+      class Meta:
+        model=NetworkEdge
+        fields=('from_user','to_user')
+
+class NetworkEdgeViewSerializer(ModelSerializer):
+    to_user=UserProfileViewSerializer()
+    from_user=UserProfileViewSerializer()
+    class Meta:
+        model=NetworkEdge
+        fields=('from_user','to_user')

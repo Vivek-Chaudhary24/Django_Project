@@ -25,3 +25,10 @@ class UserProfile(TimeStamp):
     profile_pic_url=models.ImageField(upload_to='profile_pic/', blank=True)
     bio=models.CharField(max_length=255,blank=True)
     user=models.OneToOneField(User,on_delete=models.CASCADE, null =False, related_name='profile')
+
+class NetworkEdge(TimeStamp):
+    from_user= models.ForeignKey(UserProfile,on_delete=models.CASCADE,related_name='following')
+    to_user= models.ForeignKey(UserProfile,on_delete=models.CASCADE,related_name='followers')
+
+    class Meta:
+        unique_together=('from_user', 'to_user',)
