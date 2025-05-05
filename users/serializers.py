@@ -23,10 +23,18 @@ class UserCreatedSerializer(ModelSerializer):
 class UserProfileViewSerializer(ModelSerializer):
 
     user = UserCreatedSerializer()
+    follower_count=serializers.SerializerMethodField()
+    following_count=serializers.SerializerMethodField()
     class Meta:
         model=UserProfile
         fields=('bio','profile_pic_url','user_id','user')
         #exclude=('profile_pic_url', )
+
+def get_follower_count(self,obj):
+    return obj.followers.count()
+
+def get_following_count(self,obj):
+    return obj.following.count()
 
 class UserProfileUpdateSerializer(ModelSerializer):
     first_name=serializers.CharField()
@@ -58,7 +66,7 @@ class NetworkEdgeCreationSerializer(ModelSerializer):
 
 class NetworkEdgeViewSerializer(ModelSerializer):
     to_user=UserProfileViewSerializer()
-    from_user=UserProfileViewSerializer()
+    #from_user=UserProfileViewSerializer()
     class Meta:
         model=NetworkEdge
         fields=('from_user','to_user')

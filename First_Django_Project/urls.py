@@ -25,7 +25,10 @@ from django.conf.urls.static import static
 # localhost:8000/users/
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('users/',include('users.urls'))
+    path('users/',include('users.urls')),
+
+    path('post/',include('content.urls'))
+
 ]
 
 if settings.DEBUG:
